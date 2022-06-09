@@ -1,0 +1,30 @@
+version: '3'
+services:
+
+  redmine_essence:
+    build: ./
+    restart: always
+    ports:
+      - 12000:3000
+    environment:
+      - REDMINE_DB_MYSQL=mysql_redmine_essence
+      - REDMINE_DB_PASSWORD=contrelspawn123
+      - REDMINE_PLUGINS_MIGRATE=true
+    volumes:
+      - ./data:/usr/src/redmine/files
+      - ./plugins:/usr/src/redmine/plugins
+
+  mysql_redmine_essence:
+    image: mysql:5.7
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=contrelspawn123
+      - MYSQL_DATABASE=redmine
+      - MYSQL_USER=Rucard
+      - MYSQL_PASSWORD=contrelspawn123
+    volumes:
+      - ./mycustom.cnf:/etc/mysql/conf.d/custom.cnf
+      - ./mysql:/var/lib/mysql
+      #- ./backup.sql:/docker-entrypoint-initdb.d/dump.sql

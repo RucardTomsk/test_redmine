@@ -1,0 +1,101 @@
+<h2>Essence algorithm result</h2>
+<table class="list issue-report semat-table" style="margin-bottom: 40px">
+  <thead>
+  <tr>
+    <th>Node</th>
+    <% for i in 0..@iterations_count %>
+      <th><strong>Iteration <%= i %></strong></th>
+    <% end %>
+  </tr>
+  </thead>
+  <tbody>
+  <% @checkbox_history.each do |checkbox| %>
+    <tr>
+      <td class="name">
+        <div class="node-container">
+          <span class="node-name"><%= checkbox[0] %></span>
+          <span class="node-description"><%= @hover_hash[checkbox[0]] %></span>
+        </div>
+      </td>
+      <% for i in 0..@iterations_count %>
+
+        <td>
+         <span class="node-state-<%= checkbox[1][i] %>">
+           <%= checkbox[1][i] %>
+         </span>
+        </td>
+      <% end %>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<% if @probabilities_history.count != 0 %>
+  <div><h3>Probabilities</h3></div>
+
+  <table class="list issue-report semat-table" style="margin-bottom: 40px">
+    <thead>
+    <tr>
+      <th>Node</th>
+      <% @probabilities_history.each_with_index do |probabilities, index| %>
+        <th><strong>Iteration <%= index %></strong></th>
+      <% end %>
+    </tr>
+    </thead>
+    <tbody>
+    <% @probs_for_view.each do |checkbox| %>
+      <tr>
+        <td>
+          <div class="node-container">
+            <span class="node-name"><%= checkbox[0] %></span>
+            <span class="node-description"><%= @hover_hash[checkbox[0]] %></span>
+          </div>
+        </td>
+        <% checkbox[1].each do |state| %>
+          <td><%= state.truncate(30) %></td>
+        <% end %>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<h2>Probabilities</h2>
+<table class="list issue-report semat-table">
+  <thead>
+  <tr>
+    <th style="width: 40px"><strong>Node</strong></th>
+    <th style="width: 40px"><strong>Probability</strong></th>
+    <th style="width: 40px"><strong>Parents with negative</strong></th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @probs_less_half.each do |checkbox| %>
+    <tr>
+      <td class="name">
+        <div class="node-container">
+          <span class="node-name"><%= checkbox[0] %></span>
+          <span class="node-description"><%= @hover_hash[checkbox[0]] %></span>
+        </div>
+      </td>
+      <td><%= checkbox[1].truncate(10) %></td>
+      <td>
+        <% @probs_less_half_parents[checkbox[0]].split(',') do |p| %>
+          <span class="name"> <%= p %>
+            <span>
+                <%= @hover_hash[p] %>
+              </span>
+          </span>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag 'semat-essence-plugin', :plugin => 'semat_essence' %>
+<% end %>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag 'semat-essence-plugin', :plugin => 'semat_essence' %>
+<% end %>
